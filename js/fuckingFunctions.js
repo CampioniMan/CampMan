@@ -242,7 +242,7 @@ function TPersonagemAgr(x2, y2, novaSkin)
 	}
 }
 
-function TBotao(x2, y2, selecao, novaSkin)
+function TBotao(x2, y2, selecao, novaSkin, modoMonstros, modoVidas)
 {
 	this.xis = x2;
 	this.ipi = y2;
@@ -250,13 +250,28 @@ function TBotao(x2, y2, selecao, novaSkin)
 	this.altura = 84;
 	this.estaSelecionado = selecao;
 	this.skin = novaSkin;
+	this.vidas = modoVidas;
+	this.monstros = modoMonstros;
+	this.vidasSkin = document.getElementById("coracao");
+	this.monstrosSkin = document.getElementById("monstros");
 
 	this.clicouNoBotao = function(x, y)
 	{
 		return ((x <= this.xis+this.largura && x+this.largura >= this.xis) && (y <= this.ipi + this.altura && y + this.altura >= this.ipi));
 	}
-
+	if (this.vidas > 0)
 	this.desenhar = function(context)
+	{
+		context.drawImage(this.skin, this.xis, this.ipi);
+
+		context.drawImage(this.vidasSkin, this.xis + this.skin.width/2 - this.vidasSkin.width, this.ipi+this.skin.height+10);
+		context.fillText(this.vidas, this.xis + this.skin.width - 3*this.vidasSkin.width/2, this.ipi+this.skin.height+40, 30);
+
+		context.fillText(this.monstros, this.xis + this.skin.width - 3*this.monstrosSkin.width/2, this.ipi+this.skin.height+80, 30);
+		context.drawImage(this.monstrosSkin, this.xis + this.skin.width/2 - this.monstrosSkin.width, this.ipi+this.skin.height+50);
+	}
+	else
+		this.desenhar = function(context)
 	{
 		context.drawImage(this.skin, this.xis, this.ipi);
 	}
@@ -673,12 +688,13 @@ var TCoisas = {
 			this.salvando = true;
 			this.sarvo++;
 			$.ajax({
-	            url: 'guliver.php',
+	            url: 'PHP/guliver.php',
 	            type: 'POST',
 	            data: {
 	                "addItem": TCoisas.nome,
 	                "addItem2": TCoisas.pontos.getPontos(),
-	                "removeItem3": TCoisas.coord.vidas
+	                "addItem3": TCoisas.modo,
+	                "removeItem3": TCoisas.coord.vidas,
 	            },
 	            success: function(trenzaum, burro, trem){
 	            	fruits = [TCoisas.nome];
@@ -704,8 +720,11 @@ var TCoisas = {
 	atualizarRecods : function()
 	{
 		$.ajax({
-	            url: 'sansao.php',
+	            url: 'PHP/sansao.php',
 	            type: 'POST',
+	            data: {
+	            	"getFuckingItem1": TCoisas.modo
+	            },
 	            success: function(trenzaum, burro, trem){
 	            	document.getElementById("FYD").innerHTML = trenzaum;
 	            		
@@ -757,7 +776,7 @@ var TCoisas = {
 		if (!(this.pontosAntigos == this.pontos.getPontos() || this.pontosAntigos == this.pontos.getPontos()+10 || this.pontos.getPontos() % 240 == 0 || this.pontos.getPontos() == 0))
 		{
 			$.ajax({
-		            url: 'hummels.php',
+		            url: 'PHP/hummels.php',
 		            success: function(trenzaum, burro, trem){
 		            	alert(trenzaum);
 		            	document.location.href = "pa-1.png";
@@ -811,7 +830,7 @@ var TCoisas = {
 						{
 							TCoisas.sarvo++;
 							$.ajax({
-					            url: 'einstein.php',
+					            url: 'PHP/einstein.php',
 					            success: function(trenzaum, burro, trem){
 					            	
 					            },
@@ -871,7 +890,7 @@ var TCoisas = {
 						{
 							TCoisas.sarvo++;
 							$.ajax({
-					            url: 'einstein.php',
+					            url: 'PHP/einstein.php',
 					            success: function(trenzaum, burro, trem){
 					            	
 					            },
@@ -987,10 +1006,10 @@ window.onload = function()
 	TCoisas.seta    = document.getElementById("seta");
 	TCoisas.js      = document.createElement("script");
 
-	TCoisas.botoes = new Array(new TBotao(240, 385, false, document.getElementById("btnDesafios")),
-		                new TBotao(440, 385, true, document.getElementById("btnNormal")),
-		                new TBotao(640, 385, false, document.getElementById("btnInsano")),
-		                new TBotao(840, 385, false, document.getElementById("btnHardcore")));
+	TCoisas.botoes = new Array(new TBotao(240, 385, false, document.getElementById("btnDesafios"), 0, 0),
+		                new TBotao(440, 385, true, document.getElementById("btnNormal"), 6, 3),
+		                new TBotao(640, 385, false, document.getElementById("btnInsano"),8, 3),
+		                new TBotao(840, 385, false, document.getElementById("btnHardcore"), 10, 1));
 
 	TCoisas.tamanhoPersonagem = TCoisas.coord.skinAberta.width;
 	TCoisas.telaInicio = new telaInicial();
@@ -1001,6 +1020,7 @@ window.onload = function()
 	TCoisas.js.src = "js/jquery-1.12.2.min.js";
 	document.body.appendChild(TCoisas.js);
 
+	/* Requisitando o nome do usuário */
     var person = prompt("Digite o seu nome:", "Noob1");
 
     if (person != null)
@@ -1012,7 +1032,7 @@ window.onload = function()
 
 window.onkeydown = function(e)
 {
-	if (TCoisas.jaComecou)
+	if (TCoisas.jaComecou) /* Já saiu da introdução */
 	{
 		if (e.keyCode == 13)
 		{
@@ -1045,43 +1065,44 @@ window.onkeydown = function(e)
 			foi = true;
 		}
 
-		if (TCoisas.ehInverso(TCoisas.coord.proxAct, TCoisas.coord.atualAct) && foi)
+		if (TCoisas.ehInverso(TCoisas.coord.proxAct, TCoisas.coord.atualAct) && foi) /* Se é pra ir pra trás */
 		{
 		    TCoisas.coord.atualAct = TCoisas.coord.proxAct;
 		}
 	}
-	else
+	else /* Não saiu da introdução */
 	{
 		if (e.keyCode == 13)
 		{
-			if (TCoisas.botoes[0].estaSelecionado)
+			if (TCoisas.botoes[0].estaSelecionado) // MODO DESAFIOS = coisas variadas
 				TCoisas.modo = "Desafios";
-			else if (TCoisas.botoes[1].estaSelecionado)
+			else if (TCoisas.botoes[1].estaSelecionado) // MODO NORMAL = 6 monstros
 			{
 	            TCoisas.monstros = new Array(new TPersonagemAgr(575, 270, document.getElementById("mon1")),new TPersonagemAgr(575, 270, document.getElementById("mon2")),new TPersonagemAgr(575, 270,document.getElementById("mon3")),
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon4")),new TPersonagemAgr(575, 270, document.getElementById("mon5")),new TPersonagemAgr(575, 270, document.getElementById("mon6")));
 				TCoisas.modo = "Normal";
 			}
-			else if (TCoisas.botoes[2].estaSelecionado)
+			else if (TCoisas.botoes[2].estaSelecionado) // MODO INSANO = 8 monstros
 			{
 				TCoisas.monstros = new Array(new TPersonagemAgr(575, 270, document.getElementById("mon1")),new TPersonagemAgr(575, 270, document.getElementById("mon2")),new TPersonagemAgr(575, 270,document.getElementById("mon3")),
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon4")),new TPersonagemAgr(575, 270, document.getElementById("mon5")),new TPersonagemAgr(575, 270, document.getElementById("mon6")),
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon1")), new TPersonagemAgr(575, 270, document.getElementById("mon2")));
 				TCoisas.modo = "Insano";
 			}
-			else if (TCoisas.botoes[3].estaSelecionado)
+			else if (TCoisas.botoes[3].estaSelecionado) // MODO HARDCORE = 10 monstros
 			{
 				TCoisas.monstros = new Array(new TPersonagemAgr(575, 270, document.getElementById("mon1")),new TPersonagemAgr(575, 270, document.getElementById("mon2")),new TPersonagemAgr(575, 270,document.getElementById("mon3")),
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon4")),new TPersonagemAgr(575, 270, document.getElementById("mon5")),new TPersonagemAgr(575, 270, document.getElementById("mon6")),
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon1")), new TPersonagemAgr(575, 270, document.getElementById("mon2")), new TPersonagemAgr(575, 270, document.getElementById("mon2"))
 		                 , new TPersonagemAgr(575, 270, document.getElementById("mon2")));
+				TCoisas.coord.vidas = 1;
 				TCoisas.modo = "Hardcore";
 			}
 
 			TCoisas.jaComecou = true;
 		}
 
-		if (e.keyCode == 65) // <--
+		if (e.keyCode == 65 || e.keyCode == 37) // <-- no menu
 		{
 			var index = 0;
 			for (var i = 0; i <= TCoisas.botoes.length-1; i++)
@@ -1098,7 +1119,7 @@ window.onkeydown = function(e)
 				TCoisas.botoes[TCoisas.botoes.length-1].estaSelecionado = true;
 				
 		}
-		else if (e.keyCode == 68) // -->
+		else if (e.keyCode == 68 || e.keyCode == 39) // --> no menu
 		{
 			var index = 0;
 			for (var i = 0; i <= TCoisas.botoes.length-1; i++)

@@ -4,8 +4,9 @@
 	$meuVetor = array();
 	while (!feof($file)) 
 	{
-		$meuVetor["nome"][$qtosDados] = fgets($file);
+		$meuVetor["modo"][$qtosDados] = fgets($file);
 		$meuVetor["pontos"][$qtosDados] = floatval(fgets($file));
+		$meuVetor["nome"][$qtosDados] = fgets($file);
 		$qtosDados++;
 	}
 
@@ -26,12 +27,15 @@
 
 		$aux1 = $meuVetor["nome"][$indUm];
 		$aux2 = $meuVetor["pontos"][$indUm];
+		$aux3 = $meuVetor["modo"][$indUm];
 
 		$meuVetor["nome"][$indUm] = $meuVetor["nome"][$atual];
 		$meuVetor["pontos"][$indUm] = $meuVetor["pontos"][$atual];
+		$meuVetor["modo"][$indUm] = $meuVetor["modo"][$atual];
 
 		$meuVetor["nome"][$atual] = $aux1;
 		$meuVetor["pontos"][$atual] = $aux2;
+		$meuVetor["modo"][$atual] = $aux2;
 	}
 	$ohyeah = $qtosDados-1;
 	$pos = 1;

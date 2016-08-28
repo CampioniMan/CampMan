@@ -51,14 +51,11 @@
 
 		<canvas id="meuCanvas" class="myCanvas" width="1200" height="750" style="background: url(imgs/background.png);"></canvas>
 		<fuckYouDallOca id = "FYD">
-			<?php
-				include "sansao.php";
-			?>
 		</fuckYouDallOca>
 
 
 		<!-- Suporte a mods!!! Você pode mudar essas imagens e colocar o comando da frente no Console (não use os comandos no onLoad)  -->
-		<!-- Não retire o css das imagens, caso contrário e jogo bugará feio... -->
+		<!-- Não retire o css das imagens, caso contrário o jogo bugará feio... -->
 		
 		<img src="imgs/playerGIF.gif"  id="play" class="player"  />   <!-- TCoisas.coord.skinAberta = document.getElementById("play");    -->
  		<img src="imgs/player2GIF.gif" id="play2" class="player"  />  <!-- TCoisas.coord.skinFechada = document.getElementById("play2");  -->
@@ -90,7 +87,9 @@
  		<img src="imgs/btnHardcore.png" id="btnHardcore"  />      <!-- Não mude... -->
  		<img src="imgs/btnInsano.png"   id="btnInsano"  />        <!-- Não mude... -->
  		<img src="imgs/btnDesafios.png" id="btnDesafios"  />      <!-- Não mude... -->
- 		<img src="imgs/seta.png" id="seta"  />      <!-- Não mude... -->
+ 		<img src="imgs/seta.png" id="seta"  />                    <!-- Não mude... -->
+ 		<img src="imgs/coracao.png" id="coracao"  />              <!-- Não mude... -->
+ 		<img src="imgs/monstros.png" id="monstros"  />            <!-- Não mude... -->
 
 	</body>
 </hmtl>
