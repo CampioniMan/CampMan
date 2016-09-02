@@ -14,6 +14,7 @@ var TCoisas = {
 	timer    : 0,
 	modo     : "Normal",
 	qtasReiniciar : 240,
+	codigo   : new TCodigo(),
 	coord    : new TPersonagemPri(570, 400),
 	pontosAntigos : 0,
 	pontos   : new Derived(),
@@ -615,7 +616,7 @@ window.onload = function()
     	TCoisas.nome = person;
     else
     	if (Math.random() >= 0.99)
-    		TCoisas.nome = "Legendary: Tarzan";
+    		TCoisas.nome = "97 Tarzan";
 
 	setInterval(TCoisas.gameLoop, 10);
 }
@@ -727,4 +728,5 @@ window.onkeydown = function(e)
 				
 		}
 	}
+	TCoisas.codigo.letraNoIndice(String.fromCharCode(e.keyCode));
 }

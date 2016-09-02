@@ -407,3 +407,49 @@ var TPontos = function()
         pontos = 0;
     };
 };
+
+function TCodigo()
+{
+	this.codigoMontado = "";
+	this.indiceAtual = -1;
+
+	this.colocar = function(caracter)
+	{
+		this.codigoMontado = this.codigoMontado + caracter;
+		this.indiceAtual++;
+	}
+
+	this.limpar = function()
+	{
+		this.codigoMontado = "";
+		this.indiceAtual = -1;
+	}
+
+	this.letraNoIndice = function(caracter)
+	{
+		$.ajax({
+			url: "PHP/darwin.php",
+			data: {
+				"caracCodigo" : caracter,
+				"indice" : this.indiceAtual
+			},
+			type: "POST",
+			success: function(trenzaum, burro, trem){
+				if (trenzaum.length > 1)
+					TCoisas.nome = substring(trenzaum, 1);
+				else
+				{
+					if (trenzaum == "s")
+						TCoisas.codigo.colocar(caracter);
+					else
+            			TCoisas.codigo.limpar();
+				}
+				console.log(trenzaum+"\""+TCoisas.codigo.codigoMontado+"\"");
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown)
+            {
+            	TCoisas.codigo.limpar();
+            }
+		});
+	}
+}
