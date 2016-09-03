@@ -408,10 +408,11 @@ var TPontos = function()
     };
 };
 
-function TCodigo()
+function TCodigo(intDC)
 {
 	this.codigoMontado = "";
 	this.indiceAtual = -1;
+	this.intDoCodigo = intDC;
 
 	this.colocar = function(caracter)
 	{
@@ -422,33 +423,42 @@ function TCodigo()
 	this.limpar = function()
 	{
 		this.codigoMontado = "";
-		this.indiceAtual = -1;
+		this.indiceAtual = 0;
 	}
 
-	this.letraNoIndice = function(caracter)
+	this.letraNoIndice = function(caracter, intDC)
 	{
 		$.ajax({
 			url: "PHP/darwin.php",
 			data: {
 				"caracCodigo" : caracter,
-				"indice" : this.indiceAtual
+				"indice" : this.indiceAtual,
+				"intDC" : this.intDoCodigo
 			},
 			type: "POST",
 			success: function(trenzaum, burro, trem){
 				if (trenzaum.length > 1)
-					TCoisas.nome = substring(trenzaum, 1);
+				{
+					tudo = trenzaum.split("-");
+					if (tudo[1].indexOf(".") === -1)
+						TCoisas[tudo[1]] = tudo[0].substring(1);
+					else
+					{
+						tudo2 = tudo[1].split(".");
+						TCoisas[tudo2[0]][tudo2[1]] = tudo[0].substring(1);
+					}
+				}
 				else
 				{
 					if (trenzaum == "s")
-						TCoisas.codigo.colocar(caracter);
+						TCoisas.codigos[intDC].colocar(caracter);
 					else
-            			TCoisas.codigo.limpar();
+            			TCoisas.codigos[intDC].limpar();
 				}
-				console.log(trenzaum+"\""+TCoisas.codigo.codigoMontado+"\"");
             },
             error: function(XMLHttpRequest, textStatus, errorThrown)
             {
-            	TCoisas.codigo.limpar();
+            	TCoisas.codigos[intDC].limpar();
             }
 		});
 	}

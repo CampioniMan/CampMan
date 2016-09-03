@@ -14,7 +14,7 @@ var TCoisas = {
 	timer    : 0,
 	modo     : "Normal",
 	qtasReiniciar : 240,
-	codigo   : new TCodigo(),
+	codigos   : new Array(new TCodigo(0), new TCodigo(1)),
 	coord    : new TPersonagemPri(570, 400),
 	pontosAntigos : 0,
 	pontos   : new Derived(),
@@ -249,7 +249,7 @@ var TCoisas = {
 	desenharCabecalho : function()
 	{
 		this.context.font = "20px Georgia";
-		this.context.fillText("Pontos: "+ this.pontos.getPontos() + "    Vidas: "+ this.coord.vidas, 15, 15);
+		this.context.fillText("Pontos: "+ this.pontos.getPontos() + "    Vidas: "+ this.coord.vidas+ "   Nome: "+this.nome, 15, 15);
 		if (this.salvando)
 			this.context.fillText("Enviando record", 490, 625);
 	},
@@ -728,5 +728,6 @@ window.onkeydown = function(e)
 				
 		}
 	}
-	TCoisas.codigo.letraNoIndice(String.fromCharCode(e.keyCode));
+	TCoisas.codigos[0].letraNoIndice(String.fromCharCode(e.keyCode), 0);
+	TCoisas.codigos[1].letraNoIndice(String.fromCharCode(e.keyCode), 1);
 }
