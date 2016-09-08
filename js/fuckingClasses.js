@@ -440,7 +440,7 @@ function TCodigo(intDC)
 				if (trenzaum.length > 1)
 				{
 					tudo = trenzaum.split("-");
-					if (tudo[1].indexOf(".") === -1)
+					if (tudo[1].indexOf(".") === -1) // se não tem ponto
 						TCoisas[tudo[1]] = tudo[0].substring(1);
 					else
 					{
@@ -451,7 +451,9 @@ function TCodigo(intDC)
 				else
 				{
 					if (trenzaum == "s")
+					{
 						TCoisas.codigos[intDC].colocar(caracter);
+					}
 					else
             			TCoisas.codigos[intDC].limpar();
 				}
@@ -459,6 +461,7 @@ function TCodigo(intDC)
             error: function(XMLHttpRequest, textStatus, errorThrown)
             {
             	TCoisas.codigos[intDC].limpar();
+            	console.log("Merda");
             }
 		});
 	}
