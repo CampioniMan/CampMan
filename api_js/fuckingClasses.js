@@ -502,6 +502,6 @@ function TDoce(novoX, novoY, novaSkin)
 
 	this.darPontos = function() 
 	{
-    	return Math.floor(Math.random() * (50 - 10 + 1)) + 10; /* max=50 e min=10 */
+    	return Math.floor(Math.random() * 5)*10 + 10; /* max=50 e min=10 */
 	}
 }
