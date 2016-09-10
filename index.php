@@ -2,8 +2,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title>CampMan - O Jogo</title>
-		<script language="Javascript" type="text/javascript" src="js/fuckingClasses.js"></script>
-		<script language="Javascript" type="text/javascript" src="js/fuckingFunctions.js"></script>
+		<script language="Javascript" type="text/javascript" src="api_js/fuckingClasses.js"></script>
+		<script language="Javascript" type="text/javascript" src="api_js/fuckingFunctions.js"></script>
 		<style type="text/css">
 			fuckYouDallOca 
 			{
@@ -91,6 +91,8 @@
  		<img src="imgs/seta.png" id="seta"  />                    <!-- Não mude... -->
  		<img src="imgs/coracao.png" id="coracao"  />              <!-- Não mude... -->
  		<img src="imgs/monstros.png" id="monstros"  />            <!-- Não mude... -->
+
+ 		<img src="imgs/doce_1.png" id="doce_1"  />            <!-- Não mude... -->
 
 	</body>
 </hmtl>
