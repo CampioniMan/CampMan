@@ -351,7 +351,10 @@ var TCoisas = {
 
 	ganhou : function()
 	{
-		return this.pontos.getPontos() == this.qtasReiniciar;
+		for(var i = 0; i <= this.ondePontos.length-1; i++)
+			if (this.ondePontos[i].vale == true)
+				return false;
+		return true;
 	},
 
 	reiniciar : function()
