@@ -13,7 +13,6 @@ var TCoisas = {
 	sarvo    : 1,
 	timer    : 0,
 	modo     : "Normal",
-	qtasReiniciar : 240,
 	codigos  : new Array(new TCodigo(0), new TCodigo(1)),
 	coord    : new TPersonagemPri(570, 400),
 	doces    : new TDoce(580, 400, document.getElementById("doce_1")),
@@ -128,7 +127,6 @@ var TCoisas = {
 		{
 			if (this.coord.colidiuCom(this.monstros[cont1], TCoisas.tamanhoPersonagem))
 			{
-				this.coord.renascer();
 				return true;
 			}
 		}
@@ -422,11 +420,12 @@ var TCoisas = {
 								TCoisas.desenharMonstros();
 								TCoisas.desenharCabecalho();
 							}
+							else
+							 this.coord.renascer();
 						}
 						else /* Ganhou */
 						{
 							TCoisas.reiniciar();
-							TCoisas.qtasReiniciar += 240;
 						}
 					}
 					else /* perdeu */
@@ -447,7 +446,6 @@ var TCoisas = {
 						}
 						TCoisas.salvarRecord();
 						TCoisas.reiniciar();
-						TCoisas.qtasReiniciar = 240;
 						TCoisas.pontos.SetPonto();
 						TCoisas.coord.vidas = 3;
 					}
@@ -482,11 +480,12 @@ var TCoisas = {
 								TCoisas.desenharMonstros();
 								TCoisas.desenharCabecalho();
 							}
+							else
+							 this.coord.renascer();
 						}
 						else /* Ganhou */
 						{
 							TCoisas.reiniciar();
-							TCoisas.qtasReiniciar += 240;
 						}
 					}
 					else /* perdeu */
@@ -507,7 +506,6 @@ var TCoisas = {
 						}
 						TCoisas.salvarRecord();
 						TCoisas.reiniciar();
-						TCoisas.qtasReiniciar = 240;
 						TCoisas.pontos.SetPonto();
 						TCoisas.coord.vidas = 3;
 					}
