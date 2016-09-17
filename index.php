@@ -2,6 +2,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>CampMan - O Jogo</title>
+		<script language="Javascript" type="text/javascript" src="api_js/jquery-1.12.2.min.js"></script>
 		<script language="Javascript" type="text/javascript" src="api_js/fuckingClasses.js"></script>
 		<script language="Javascript" type="text/javascript" src="api_js/fuckingFunctions.js"></script>
 		<style type="text/css">

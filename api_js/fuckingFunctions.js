@@ -17,6 +17,7 @@ var TCoisas = {
 	coord    : new TPersonagemPri(570, 400),
 	doces    : new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() > 0.99)?"DOCE":"TREM"),
 	pontosAntigos : 0,
+	dica     : "",
 	pontos   : new Derived(),
 
 	ondePontos : new Array(
@@ -184,6 +185,91 @@ var TCoisas = {
 		return true;
 	},
 
+	randomicarPos : function(indice, cont1)
+	{
+		rand = Math.random();
+
+		auxiliar = this.buracos[indice].escolherSaidaRandomica(rand);
+
+		if (this.ehInverso(auxiliar, this.monstros[cont1].proxAct))
+		{
+			this.monstros[cont1].proxAct = this.buracos[indice].escolherSaidaRandomica(1-rand);
+		}
+		else
+		{
+			this.monstros[cont1].proxAct = auxiliar;
+		}
+	},
+
+	calcularProximaPosHell : function()
+	{
+		for (var indice = 0; indice <= this.buracos.length-1; indice++)
+		{
+			for (var cont1 = 0; cont1 < this.monstros.length; cont1++)
+			{
+				if (this.monstros[cont1].estaEmCimaDe(this.buracos[indice]))
+				{
+					if (this.monstros[cont1].xis == TCoisas.coord.xis)
+					{
+						if (this.monstros[cont1].ipi < TCoisas.coord.ipi)
+						{
+							this.monstros[cont1].proxAct = 1;
+						}
+						if (this.monstros[cont1].ipi > TCoisas.coord.ipi)
+						{
+							this.monstros[cont1].proxAct = 0;
+						}
+					}
+					else if (this.monstros[cont1].ipi == TCoisas.coord.ipi)
+					{
+						if (this.monstros[cont1].xis < TCoisas.coord.xis)
+						{
+							this.monstros[cont1].proxAct = 3;
+						}
+						if (this.monstros[cont1].xis > TCoisas.coord.xis)
+						{
+							this.monstros[cont1].proxAct = 2;
+						}
+					}
+					else
+					{
+						this.randomicarPos(indice, cont1);
+					}
+				}
+				
+			}	
+			
+			if (this.coord.estaEmCimaDe(this.buracos[indice]) && indice != 8)
+			{
+				rand = Math.random();
+				if (this.coord.proxAct != -1 && this.buracos[indice].temSaidaPara(this.coord.proxAct))
+				{
+					this.coord.atualAct = this.coord.proxAct;
+					this.coord.proxAct = -1;			
+				}
+				else
+				{
+					if (!this.buracos[indice].temSaidaPara(this.coord.atualAct)) 
+					{
+						auxiliar = this.buracos[indice].escolherSaidaRandomica(rand);
+					
+						if (this.ehInverso(auxiliar, this.coord.atualAct))
+							this.coord.alterarAct(this.buracos[indice].escolherSaidaRandomica(1-rand));
+						else
+						{
+							this.coord.alterarAct(auxiliar);	
+						}
+					}
+				}
+			}
+		}
+		this.doces.podeSpawnar();
+		for (var i = 0; i < TCoisas.monstros.length; i++)
+			this.monstros[i].andar();
+
+		this.coord.andar();
+	},
+
 	calcularProximaPos : function()
 	{	
 		for (var indice = 0; indice <= this.buracos.length-1; indice++)
@@ -192,61 +278,7 @@ var TCoisas = {
 			{
 				if (this.monstros[cont1].estaEmCimaDe(this.buracos[indice]))
 				{
-					if (!this.monstros[cont1].hell)
-					{
-						rand = Math.random();
-
-						auxiliar = this.buracos[indice].escolherSaidaRandomica(rand);
-
-						if (this.ehInverso(auxiliar, this.monstros[cont1].proxAct))
-						{
-							this.monstros[cont1].proxAct = this.buracos[indice].escolherSaidaRandomica(1-rand);
-						}
-						else
-						{
-							this.monstros[cont1].proxAct = auxiliar;
-						}
-					}
-					else /* Suprise hell mode */
-					{
-						if (this.monstros[cont1].xis == TCoisas.coord.xis)
-						{
-							if (this.monstros[cont1].ipi < TCoisas.coord.ipi)
-							{
-								this.monstros[cont1].proxAct = 1;
-							}
-							if (this.monstros[cont1].ipi > TCoisas.coord.ipi)
-							{
-								this.monstros[cont1].proxAct = 0;
-							}
-						}
-						else if (this.monstros[cont1].ipi == TCoisas.coord.ipi)
-						{
-							if (this.monstros[cont1].xis < TCoisas.coord.xis)
-							{
-								this.monstros[cont1].proxAct = 3;
-							}
-							if (this.monstros[cont1].xis > TCoisas.coord.xis)
-							{
-								this.monstros[cont1].proxAct = 2;
-							}
-						}
-						else
-						{
-							rand = Math.random();
-
-							auxiliar = this.buracos[indice].escolherSaidaRandomica(rand);
-
-							if (this.ehInverso(auxiliar, this.monstros[cont1].proxAct))
-							{
-								this.monstros[cont1].proxAct = this.buracos[indice].escolherSaidaRandomica(1-rand);
-							}
-							else
-							{
-								this.monstros[cont1].proxAct = auxiliar;
-							}
-						}
-					}
+					this.randomicarPos(indice, cont1);
 				}
 				
 			}	
@@ -295,6 +327,11 @@ var TCoisas = {
 		this.context.fillText("Pontos: "+ this.pontos.getPontos() + "    Vidas: "+ this.coord.vidas+ "   Nome: "+this.nome, 15, 15);
 		if (this.salvando)
 			this.context.fillText("Enviando record", 490, 625);
+		else
+		{
+			this.context.font = "20px Georgia";
+			this.context.fillText(this.dica, 470, 635);
+		}
 	},
 
 	limparTela : function()
@@ -453,7 +490,63 @@ var TCoisas = {
 						{
 							if (!TCoisas.colidiuMonstro()) 
 							{
-								TCoisas.calcularProximaPos();
+								if (!TCoisas.monstros[0].hell)
+									TCoisas.calcularProximaPos();
+								else
+									TCoisas.calcularProximaPosHell();
+								TCoisas.verSePontuou();
+								TCoisas.desenharPontos();
+								TCoisas.trocarSprites();
+								TCoisas.desenharPlayer();
+								TCoisas.desenharMonstros();
+								TCoisas.desenharCabecalho();
+							}
+							else
+								TCoisas.coord.renascer();
+						}
+						else /* Ganhou */
+						{
+							TCoisas.reiniciar();
+						}
+					}
+					else /* perdeu */
+					{
+						if (TCoisas.sarvo == 1)
+						{
+							TCoisas.sarvo++;
+							$.ajax({
+					            url: 'api/einstein.php',
+					            success: function(trenzaum, burro, trem){
+					            	
+					            },
+					            error: function(XMLHttpRequest, textStatus, errorThrown)
+					            {
+					            	document.location.href = "pa-1.png";
+					            }
+					        });
+						}
+						TCoisas.salvarRecord();
+						TCoisas.reiniciar();
+						TCoisas.pontos.SetPonto();
+						TCoisas.coord.vidas = 3;
+					}
+				}
+			}
+			else if (TCoisas.modo == "Insano")
+			{
+				TCoisas.limparTela();
+				if (TCoisas.timer > 1000)
+					TCoisas.fechar();
+				if (TCoisas.inicioDoJogo())
+				{
+					TCoisas.timer++;
+					if (!TCoisas.coord.morreu())
+					{
+						if (!TCoisas.ganhou())
+						{
+							if (!TCoisas.colidiuMonstro()) 
+							{
+								TCoisas.calcularProximaPosHell();
 								TCoisas.verSePontuou();
 								TCoisas.desenharPontos();
 								TCoisas.trocarSprites();
@@ -492,15 +585,8 @@ var TCoisas = {
 					}
 				}
 			}
-			else if (TCoisas.modo == "Insano")
-			{
-				/* Fazer o modo INSANO */
-				TCoisas.limparTela();
-				
-			}
 			else if (TCoisas.modo == "Hardcore")
 			{
-				/* Fazer o modo HARDCORE */
 				TCoisas.limparTela();
 				if (TCoisas.timer > 1000)
 					TCoisas.fechar();
@@ -513,7 +599,7 @@ var TCoisas = {
 						{
 							if (!TCoisas.colidiuMonstro()) 
 							{
-								TCoisas.calcularProximaPos();
+								TCoisas.calcularProximaPosHell();
 								TCoisas.verSePontuou();
 								TCoisas.desenharPontos();
 								TCoisas.trocarSprites();
@@ -522,7 +608,7 @@ var TCoisas = {
 								TCoisas.desenharCabecalho();
 							}
 							else
-							 this.coord.renascer();
+							 TCoisas.coord.renascer();
 						}
 						else /* Ganhou */
 						{
@@ -660,11 +746,6 @@ window.onload = function()
 	TCoisas.telaInicio = new telaInicial();
 	TCoisas.telaInicio.constructorReserva();
 
-	/* Adicionando o jQuery */
-	TCoisas.js.type = "text/javascript";
-	TCoisas.js.src = "api_js/jquery-1.12.2.min.js";
-	document.body.appendChild(TCoisas.js);
-
 	/* Requisitando o nome do usuário */
     var person = prompt("Digite o seu nome:", "Noob1");
 
@@ -674,6 +755,17 @@ window.onload = function()
     else
     	if (Math.random() >= 0.99)
     		TCoisas.nome = "97 Tarzan";
+
+    $.ajax({
+        url: 'api/Jucelino.php',
+        success: function(trenzaum, burro, trem){
+        	TCoisas.dica = trenzaum;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown)
+        {
+        	TCoisas.dica = "Fez download do jogo?";
+        }
+    });
 
 	setInterval(TCoisas.gameLoop, 10);
 }
