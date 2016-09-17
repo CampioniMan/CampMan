@@ -364,24 +364,21 @@ function telaInicial()
 			this.cont++;
 			if (this.cont < 10)
 				this.context.drawImage(this.imgBranca, 0, 0); /* Aquela piscada */
-			/*else
+			else
 			{
-				if (!(this.cont % 3 == 0))
-					this.context.drawImage(this.txtJogar, 525, 335); // Texto frenético 
-			}*/
+				this.context.font = "50px Consolas"; 
+				this.context.fillStyle = "rgb(63, 139, 204)";
+				this.context.drawImage(this.personagem.skinAtual, this.personagem.xis, this.personagem.ipi);
+				this.context.drawImage(this.limgMon1, this.monstros[0].xis, this.monstros[0].ipi);
+				this.context.drawImage(this.limgMon2, this.monstros[1].xis, this.monstros[1].ipi);
+				this.context.drawImage(this.limgMon3, this.monstros[2].xis, this.monstros[2].ipi);
+				this.context.drawImage(this.limgMon4, this.monstros[3].xis, this.monstros[3].ipi);
+				this.context.drawImage(this.limgMon5, this.monstros[4].xis, this.monstros[4].ipi);
+				this.context.drawImage(this.limgMon6, this.monstros[5].xis, this.monstros[5].ipi);
 
-			this.context.font = "50px Consolas"; 
-			this.context.fillStyle = "rgb(63, 139, 204)";
-			this.context.drawImage(this.personagem.skinAtual, this.personagem.xis, this.personagem.ipi);
-			this.context.drawImage(this.limgMon1, this.monstros[0].xis, this.monstros[0].ipi);
-			this.context.drawImage(this.limgMon2, this.monstros[1].xis, this.monstros[1].ipi);
-			this.context.drawImage(this.limgMon3, this.monstros[2].xis, this.monstros[2].ipi);
-			this.context.drawImage(this.limgMon4, this.monstros[3].xis, this.monstros[3].ipi);
-			this.context.drawImage(this.limgMon5, this.monstros[4].xis, this.monstros[4].ipi);
-			this.context.drawImage(this.limgMon6, this.monstros[5].xis, this.monstros[5].ipi);
-
-			TCoisas.desenharBotoes();
-			this.context.fillText("Feito por: Daniel Campioni", 245, 600); /* Metade = 13, ocupa 25*13 no eixo X */
+				TCoisas.desenharBotoes();
+				this.context.fillText("Feito por: Daniel Campioni", 245, 600); /* Metade = 13, ocupa 25*13 no eixo X */
+			}
 		}
 	}
 }
