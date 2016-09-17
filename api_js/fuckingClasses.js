@@ -163,6 +163,7 @@ function TPersonagemPri(x2, y2)
 function TPersonagemAgr(x2, y2, novaSkin)
 { 
 	this.skin = novaSkin;
+	this.skin2 = novaSkin;
 	this.xis = x2;
 	this.ipi = y2;
 	this.proxAct = 0; 
@@ -198,6 +199,12 @@ function TPersonagemAgr(x2, y2, novaSkin)
 	{
 		this.skin = document.getElementById("dem");
 		this.hell = true;
+	}
+
+	this.desHellAlizar = function()
+	{
+		this.skin = this.skin2;
+		this.hell = false;
 	}
 
 	this.estaEmCimaDe = function(passagem)

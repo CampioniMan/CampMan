@@ -443,13 +443,37 @@ var TCoisas = {
 			this.monstros[cont1].ipi = 270;
 			this.monstros[cont1].proxAct = 0;
 		}
-		TCoisas.doces.ativo = false;
+		this.doces.ativo = false;
 		this.doces.reiniciar();
 		this.timer = 0;
 		this.coord.atualAct = 3;
 		this.coord.proxAct = -1;
 		this.coord.xis = 570;
 		this.coord.ipi = 400;
+	},
+
+	reiniciarNormal : function()
+	{
+		for (var indice = 0; indice <= this.ondePontos.length-1; indice++)
+			this.ondePontos[indice].mudarVale(true);
+		for (var cont1 = 0; cont1 < this.monstros.length; cont1++)
+		{
+			this.monstros[cont1].xis = 575;
+			this.monstros[cont1].ipi = 270;
+			this.monstros[cont1].proxAct = 0;
+		}
+		this.doces.ativo = false;
+		this.doces.reiniciar();
+		this.timer = 0;
+		this.coord.atualAct = 3;
+		this.coord.proxAct = -1;
+		this.coord.xis = 570;
+		this.coord.ipi = 400;
+		for (var i = 0; i < TCoisas.monstros.length; i++) 
+    	{
+    		TCoisas.monstros[i].desHellAlizar();
+    	}
+    	this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() > 0.99)?"DOCE":"TREM");
 	},
 
 	validarScore : function() 
@@ -506,7 +530,7 @@ var TCoisas = {
 						}
 						else /* Ganhou */
 						{
-							TCoisas.reiniciar();
+							TCoisas.reiniciarNormal();
 						}
 					}
 					else /* perdeu */
@@ -526,7 +550,7 @@ var TCoisas = {
 					        });
 						}
 						TCoisas.salvarRecord();
-						TCoisas.reiniciar();
+						TCoisas.reiniciarNormal();
 						TCoisas.pontos.SetPonto();
 						TCoisas.coord.vidas = 3;
 					}
