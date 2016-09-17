@@ -167,6 +167,7 @@ function TPersonagemAgr(x2, y2, novaSkin)
 	this.ipi = y2;
 	this.proxAct = 0; 
 	this.desativar = false;
+	this.hell = false;
 
 	this.andar = function()
 	{
@@ -191,6 +192,12 @@ function TPersonagemAgr(x2, y2, novaSkin)
 				}
 			}
 		}
+	}
+
+	this.hellAlizar = function()
+	{
+		this.skin = document.getElementById("dem");
+		this.hell = true;
 	}
 
 	this.estaEmCimaDe = function(passagem)
@@ -462,18 +469,19 @@ function TCodigo(intDC)
 	}
 }
 
-function TDoce(novoX, novoY, novaSkin)
+function TDoce(novoX, novoY, novaSkin, tipo)
 {
 	this.xis = novoX;
 	this.ipi = novoY;
 	this.skin = novaSkin;
 	this.ativo = false;
+
 	this.margemErro = 0.000001;
 
 	this.ativarEfeito = function()
 	{
 		// ???
-		this.ativo = false;
+		this.ativo = true;
 	}
 
 	this.desenhar = function(g)
@@ -493,12 +501,48 @@ function TDoce(novoX, novoY, novaSkin)
 				this.ativo = true;
 			}
 			else
+			{
 				this.margemErro += 0.0000001;
+			}
 		}
 	}
 
-	this.darPontos = function() 
+
+	if (tipo.toUpperCase() == "DOCE")
 	{
-    	return Math.floor(Math.random() * 5)*10 + 10; /* max=50 e min=10 */
+		this.darPontos = function() 
+		{
+	    	var qtosPontos = Math.floor(Math.random() * 5)*10 + 10; /* max=50 e min=10 */
+	    	for (var auxas = 0; auxas < qtosPontos; auxas++)
+				TCoisas.pontos.SetPontos(auxas);
+		}
+
+		this.reiniciar = function()
+		{
+			TCoisas.doces.margemErro = 0.000001;
+		}
+
+		this.verificar = function()
+		{}
+	}
+	else
+	{
+		this.darPontos = function() 
+		{
+	    	for (var i = 0; i < TCoisas.monstros.length; i++) 
+	    	{
+	    		TCoisas.monstros[i].hellAlizar();
+	    	}
+		}
+
+		this.reiniciar = function()
+		{
+			TCoisas.doces.margemErro = 0.000001;
+		}
+
+		this.verificar = function()
+		{
+
+		}
 	}
 }

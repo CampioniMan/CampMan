@@ -66,6 +66,7 @@
 		<img src="imgs/monstro4.png" id="mon4" class="monstro"  />    <!-- TCoisas.imgMon4 = document.getElementById("mon4");             -->
 		<img src="imgs/monstro5.png" id="mon5" class="monstro"  />    <!-- TCoisas.imgMon5 = document.getElementById("mon5");             -->
 		<img src="imgs/monstro6.png" id="mon6" class="monstro"  />    <!-- TCoisas.imgMon6 = document.getElementById("mon6");             -->
+		<img src="imgs/demonic.png" id="dem" class="monstro"  />
 
 		<img src="imgs/A.png" id="lmon1" class="monstro"  />    <!-- Não mude... -->
 		<img src="imgs/M.png" id="lmon2" class="monstro"  />    <!-- Não mude... -->

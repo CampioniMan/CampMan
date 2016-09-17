@@ -15,7 +15,7 @@ var TCoisas = {
 	modo     : "Normal",
 	codigos  : new Array(new TCodigo(0), new TCodigo(1)),
 	coord    : new TPersonagemPri(570, 400),
-	doces    : new TDoce(580, 400, document.getElementById("doce_1")),
+	doces    : new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() > 0.99)?"DOCE":"TREM"),
 	pontosAntigos : 0,
 	pontos   : new Derived(),
 
@@ -192,17 +192,60 @@ var TCoisas = {
 			{
 				if (this.monstros[cont1].estaEmCimaDe(this.buracos[indice]))
 				{
-					rand = Math.random();
-
-					auxiliar = this.buracos[indice].escolherSaidaRandomica(rand);
-
-					if (this.ehInverso(auxiliar, this.monstros[cont1].proxAct))
+					if (!this.monstros[cont1].hell)
 					{
-						this.monstros[cont1].proxAct = this.buracos[indice].escolherSaidaRandomica(1-rand);
+						rand = Math.random();
+
+						auxiliar = this.buracos[indice].escolherSaidaRandomica(rand);
+
+						if (this.ehInverso(auxiliar, this.monstros[cont1].proxAct))
+						{
+							this.monstros[cont1].proxAct = this.buracos[indice].escolherSaidaRandomica(1-rand);
+						}
+						else
+						{
+							this.monstros[cont1].proxAct = auxiliar;
+						}
 					}
-					else
+					else /* Suprise hell mode */
 					{
-						this.monstros[cont1].proxAct = auxiliar;
+						if (this.monstros[cont1].xis == TCoisas.coord.xis)
+						{
+							if (this.monstros[cont1].ipi < TCoisas.coord.ipi)
+							{
+								this.monstros[cont1].proxAct = 1;
+							}
+							if (this.monstros[cont1].ipi > TCoisas.coord.ipi)
+							{
+								this.monstros[cont1].proxAct = 0;
+							}
+						}
+						else if (this.monstros[cont1].ipi == TCoisas.coord.ipi)
+						{
+							if (this.monstros[cont1].xis < TCoisas.coord.xis)
+							{
+								this.monstros[cont1].proxAct = 3;
+							}
+							if (this.monstros[cont1].xis > TCoisas.coord.xis)
+							{
+								this.monstros[cont1].proxAct = 2;
+							}
+						}
+						else
+						{
+							rand = Math.random();
+
+							auxiliar = this.buracos[indice].escolherSaidaRandomica(rand);
+
+							if (this.ehInverso(auxiliar, this.monstros[cont1].proxAct))
+							{
+								this.monstros[cont1].proxAct = this.buracos[indice].escolherSaidaRandomica(1-rand);
+							}
+							else
+							{
+								this.monstros[cont1].proxAct = auxiliar;
+							}
+						}
 					}
 				}
 				
@@ -340,10 +383,8 @@ var TCoisas = {
 			if (this.coord.colidiuComMoeda(this.doces, TCoisas.tamanhoPersonagem)) /* ver se pegou um doce */
 			{
 				TCoisas.doces.ativo = false;
-				var qtosPontos = this.doces.darPontos();
-				for (var auxas = 0; auxas < qtosPontos; auxas++)
-					this.pontos.SetPontos(auxas);
-				this.doces.margemErro = 0.000001;
+				this.doces.darPontos();
+				this.doces.reiniciar();
 			}
 	},
 
@@ -366,7 +407,7 @@ var TCoisas = {
 			this.monstros[cont1].proxAct = 0;
 		}
 		TCoisas.doces.ativo = false;
-		this.doces.margemErro = 0.000001;
+		this.doces.reiniciar();
 		this.timer = 0;
 		this.coord.atualAct = 3;
 		this.coord.proxAct = -1;
@@ -421,7 +462,7 @@ var TCoisas = {
 								TCoisas.desenharCabecalho();
 							}
 							else
-							 this.coord.renascer();
+							 TCoisas.coord.renascer();
 						}
 						else /* Ganhou */
 						{
