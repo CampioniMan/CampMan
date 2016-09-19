@@ -26,6 +26,10 @@
             
             echo json_encode(array($nome));
         }
+        else
+        {
+            echo "Ou tá hackeando ou é ruim mesmo...";
+        }
     }
     else
     {

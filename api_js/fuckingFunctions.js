@@ -473,7 +473,7 @@ var TCoisas = {
     	{
     		TCoisas.monstros[i].desHellAlizar();
     	}
-    	this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() > 0.99)?"DOCE":"TREM");
+    	this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() < 0.99)?"DOCE":"TREM");
 	},
 
 	validarScore : function() 
@@ -844,6 +844,7 @@ window.onkeydown = function(e)
 			{
 	            TCoisas.monstros = new Array(new TPersonagemAgr(575, 270, document.getElementById("mon1")),new TPersonagemAgr(575, 270, document.getElementById("mon2")),new TPersonagemAgr(575, 270,document.getElementById("mon3")),
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon4")),new TPersonagemAgr(575, 270, document.getElementById("mon5")),new TPersonagemAgr(575, 270, document.getElementById("mon6")));
+	            TCoisas.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() < 0.99)?"DOCE":"TREM");
 				TCoisas.modo = "Normal";
 			}
 			else if (TCoisas.botoes[2].estaSelecionado) // MODO INSANO = 8 monstros
@@ -851,6 +852,7 @@ window.onkeydown = function(e)
 				TCoisas.monstros = new Array(new TPersonagemAgr(575, 270, document.getElementById("mon1")),new TPersonagemAgr(575, 270, document.getElementById("mon2")),new TPersonagemAgr(575, 270,document.getElementById("mon3")),
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon4")),new TPersonagemAgr(575, 270, document.getElementById("mon5")),new TPersonagemAgr(575, 270, document.getElementById("mon6")),
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon1")), new TPersonagemAgr(575, 270, document.getElementById("mon2")));
+				TCoisas.doces = new TDoce(580, 400, document.getElementById("doce_1"), "DOCE");
 				TCoisas.modo = "Insano";
 			}
 			else if (TCoisas.botoes[3].estaSelecionado) // MODO HARDCORE = 10 monstros
@@ -859,6 +861,7 @@ window.onkeydown = function(e)
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon4")),new TPersonagemAgr(575, 270, document.getElementById("mon5")),new TPersonagemAgr(575, 270, document.getElementById("mon6")),
 		                 new TPersonagemAgr(575, 270, document.getElementById("mon1")), new TPersonagemAgr(575, 270, document.getElementById("mon2")), new TPersonagemAgr(575, 270, document.getElementById("mon2"))
 		                 , new TPersonagemAgr(575, 270, document.getElementById("mon2")));
+				TCoisas.doces = new TDoce(580, 400, document.getElementById("doce_1"), "DOCE");
 				TCoisas.coord.vidas = 1;
 				TCoisas.modo = "Hardcore";
 			}
