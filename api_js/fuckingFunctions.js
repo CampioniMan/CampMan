@@ -555,7 +555,6 @@ var TCoisas = {
 						TCoisas.exibirRecord();
 						TCoisas.salvarRecord();
 						TCoisas.reiniciarNormal();
-						TCoisas.pontos.SetPonto();
 					}
 				}
 			}
@@ -594,8 +593,6 @@ var TCoisas = {
 						TCoisas.salvarRecord();
 						TCoisas.exibirRecord();
 						TCoisas.reiniciar();
-						TCoisas.pontos.SetPonto();
-						TCoisas.coord.vidas = 3;
 					}
 				}
 			}
@@ -634,8 +631,6 @@ var TCoisas = {
 						TCoisas.salvarRecord();
 						TCoisas.exibirRecord();
 						TCoisas.reiniciar();
-						TCoisas.pontos.SetPonto();
-						TCoisas.coord.vidas = 3;
 					}
 				}
 			}
@@ -787,7 +782,19 @@ window.onkeydown = function(e)
 
 			if (TCoisas.coord.morreu())
 			{
-				TCoisas.coord.vidas = 3;
+				if (TCoisas.modo ==  "Normal")
+				{
+					TCoisas.coord.vidas = 3;
+				}
+				else if (TCoisas.modo ==  "Insano")
+				{
+					TCoisas.coord.vidas = 3;
+				}
+				else if (TCoisas.modo ==  "Hardcore")
+				{
+					TCoisas.coord.vidas = 1;
+				}
+				TCoisas.pontos.SetPonto();
 			}
 		}
 		var foi = false;
