@@ -801,10 +801,10 @@ window.onkeydown = function(e)
 		if (e.keyCode == 13)
 		{
 			if (TCoisas.monstros[0].desativar == false)
-			for (var cont1 = 0; cont1 < this.monstros.length; cont1++) 
+			for (var cont1 = 0; cont1 < TCoisas.monstros.length; cont1++) 
 				TCoisas.monstros[cont1].desativar = true;
 			else
-			for (var cont1 = 0; cont1 < this.monstros.length; cont1++) 
+			for (var cont1 = 0; cont1 < TCoisas.monstros.length; cont1++) 
 				TCoisas.monstros[cont1].desativar = false;
 		}
 		var foi = false;
