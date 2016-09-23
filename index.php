@@ -85,6 +85,7 @@
  		<img src="imgs/imgPreta.png" id="imgPreta"  />                <!-- Não mude... -->
  		<img src="imgs/imgBranca.png" id="imgBranca"  />              <!-- Não mude... -->
  		<img src="imgs/txtJogar.png" id="txtJogar"  />                <!-- Não mude... -->
+ 		<img src="imgs/txtReiniciar.png" id="txtReini"  />                <!-- Não mude... -->
 
  		<img src="imgs/btnNormal.png"   id="btnNormal"  />        <!-- Não mude... -->
  		<img src="imgs/btnHardcore.png" id="btnHardcore"  />      <!-- Não mude... -->

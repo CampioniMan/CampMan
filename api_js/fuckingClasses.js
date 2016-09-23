@@ -553,3 +553,33 @@ function TDoce(novoX, novoY, novaSkin, tipo)
 		}
 	}
 }
+
+function TQuadradoBordado(x, y, l, a)
+{
+	this.xis = x;
+	this.ipi = y;
+	this.largura = l;
+	this.altura = a;
+	this.botao = document.getElementById("txtReini");
+
+	this.desenhar1 = function(g)
+	{
+		g.fillRect(this.xis, this.ipi, this.largura, this.altura);
+		g.lineWidth = "10";
+		g.strokeStyle = "rgb(0, 219, 0)";
+		g.rect(this.xis, this.ipi, this.largura, this.altura);
+		g.stroke();
+	}
+
+	this.desenhar = function(g, pontos, nome)
+	{
+		this.desenhar1(g);
+		g.fillStyle = "rgb(0, 219, 0)";
+		g.font="50px Consolas";
+		g.fillText(nome+"", this.xis + this.largura/2 - 10 - 25*(nome.length/2), this.ipi + this.altura/2 -50, this.largura-10);
+		g.font="20px Consolas";
+		g.fillText(pontos, this.xis + this.largura/2 - 10, this.ipi + this.altura/2 - 10 + 10);
+		g.drawImage(this.botao, this.xis - this.botao.width/2 + this.largura/2, this.ipi + 40 + this.altura/2);
+		g.fillStyle = "rgb(0, 0, 0)";
+	}
+}

@@ -19,6 +19,7 @@ var TCoisas = {
 	pontosAntigos : 0,
 	dica     : "",
 	pontos   : new Derived(),
+	mostrador : null,
 
 	ondePontos : new Array(
 		        new TPontuacao(55, 38), 
@@ -323,13 +324,13 @@ var TCoisas = {
 
 	desenharCabecalho : function()
 	{
-		this.context.font = "20px Georgia";
+		this.context.font = "20px Consolas";
 		this.context.fillText("Pontos: "+ this.pontos.getPontos() + "    Vidas: "+ this.coord.vidas+ "   Nome: "+this.nome, 15, 15);
 		if (this.salvando)
 			this.context.fillText("Enviando record", 490, 625);
 		else
 		{
-			this.context.font = "20px Georgia";
+			this.context.font = "20px Consolas";
 			this.context.fillText(this.dica, 470, 635);
 		}
 	},
@@ -346,6 +347,11 @@ var TCoisas = {
 			if (this.ondePontos[indice].vale != false) 
 				this.context.drawImage(this.imgPt1, this.ondePontos[indice].xis, this.ondePontos[indice].ipi);
 		this.doces.desenhar(this.context);
+	},
+
+	exibirRecord : function()
+	{
+		TCoisas.mostrador.desenhar(this.context, TCoisas.pontos.getPontos(), TCoisas.nome);
 	},
 
 	salvarRecord : function()
@@ -374,7 +380,7 @@ var TCoisas = {
 	            	else
 	            	{
 	            		TCoisas.salvando = false;
-	            		TCoisas.atualizarRecods();
+	            		TCoisas.atualizarRecords();
 	            	}
 	            		
 	            },
@@ -386,7 +392,7 @@ var TCoisas = {
 		}
 	},
 
-	atualizarRecods : function()
+	atualizarRecords : function()
 	{
 		$.ajax({
 	            url: 'api/sansao.php',
@@ -492,17 +498,17 @@ var TCoisas = {
 		if (!(this.pontosAntigos == this.pontos.getPontos() || this.pontosAntigos == this.pontos.getPontos()+10 || this.pontos.getPontos() % 240 == 0 || this.pontos.getPontos() == 0))
 		{
 			$.ajax({
-		            url: 'api/hummels.php',
-		            success: function(trenzaum, burro, trem){
-		            	alert(trenzaum);
-		            	document.location.href = "pa-1.png";
+	            url: 'api/hummels.php',
+	            success: function(trenzaum, burro, trem){
+	            	alert(trenzaum);
+	            	document.location.href = "pa-1.png";
 
-		            },
-		            error: function(XMLHttpRequest, textStatus, errorThrown)
-		            {
-		            	document.location.href = "pa-1.png";
-		            }
-		        });
+	            },
+	            error: function(XMLHttpRequest, textStatus, errorThrown)
+	            {
+	            	document.location.href = "pa-1.png";
+	            }
+	        });
 		}
 		this.pontosAntigos = this.pontos.getPontos();
 	},
@@ -546,24 +552,10 @@ var TCoisas = {
 					}
 					else /* perdeu */
 					{
-						if (TCoisas.sarvo == 1)
-						{
-							TCoisas.sarvo++;
-							$.ajax({
-					            url: 'api/einstein.php',
-					            success: function(trenzaum, burro, trem){
-					            	
-					            },
-					            error: function(XMLHttpRequest, textStatus, errorThrown)
-					            {
-					            	document.location.href = "pa-1.png";
-					            }
-					        });
-						}
+						TCoisas.exibirRecord();
 						TCoisas.salvarRecord();
 						TCoisas.reiniciarNormal();
 						TCoisas.pontos.SetPonto();
-						TCoisas.coord.vidas = 3;
 					}
 				}
 			}
@@ -599,21 +591,8 @@ var TCoisas = {
 					}
 					else /* perdeu */
 					{
-						if (TCoisas.sarvo == 1)
-						{
-							TCoisas.sarvo++;
-							$.ajax({
-					            url: 'api/einstein.php',
-					            success: function(trenzaum, burro, trem){
-					            	
-					            },
-					            error: function(XMLHttpRequest, textStatus, errorThrown)
-					            {
-					            	document.location.href = "pa-1.png";
-					            }
-					        });
-						}
 						TCoisas.salvarRecord();
+						TCoisas.exibirRecord();
 						TCoisas.reiniciar();
 						TCoisas.pontos.SetPonto();
 						TCoisas.coord.vidas = 3;
@@ -652,21 +631,8 @@ var TCoisas = {
 					}
 					else /* perdeu */
 					{
-						if (TCoisas.sarvo == 1)
-						{
-							TCoisas.sarvo++;
-							$.ajax({
-					            url: 'api/einstein.php',
-					            success: function(trenzaum, burro, trem){
-					            	
-					            },
-					            error: function(XMLHttpRequest, textStatus, errorThrown)
-					            {
-					            	document.location.href = "pa-1.png";
-					            }
-					        });
-						}
 						TCoisas.salvarRecord();
+						TCoisas.exibirRecord();
 						TCoisas.reiniciar();
 						TCoisas.pontos.SetPonto();
 						TCoisas.coord.vidas = 3;
@@ -684,6 +650,7 @@ var TCoisas = {
 		}
 	},
 
+	/* Fecha a abertura que alguns tentam entrar */
 	fechar : function()
 	{
 		this.context.fillStyle = "rgb(11, 58, 221)";
@@ -768,6 +735,7 @@ window.onload = function()
 	TCoisas.imgPa3  = document.getElementById("pa3");
 	TCoisas.imgPan1 = document.getElementById("pan1");
 	TCoisas.imgPt1  = document.getElementById("pt1");
+	TCoisas.mostrador = new TQuadradoBordado(TCoisas.canvas.width/2-150, TCoisas.canvas.height/2-100, 300, 200);
 	TCoisas.seta    = document.getElementById("seta");
 	TCoisas.doces.skin = document.getElementById("doce_1");
 	TCoisas.js      = document.createElement("script");
@@ -816,6 +784,11 @@ window.onkeydown = function(e)
 			else
 			for (var cont1 = 0; cont1 < TCoisas.monstros.length; cont1++) 
 				TCoisas.monstros[cont1].desativar = false;
+
+			if (TCoisas.coord.morreu())
+			{
+				TCoisas.coord.vidas = 3;
+			}
 		}
 		var foi = false;
 		if (e.keyCode == 65)
