@@ -476,6 +476,17 @@ var TCoisas = {
     	this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() < 0.99)?"DOCE":"TREM");
 	},
 
+	renascerTudo : function()
+	{
+		for (var i =0; i < monstros.length; i++)
+		{
+			TCoisas.monstros[i].xis = 575;
+			TCoisas.monstros[i].ipi = 270;
+			TCoisas.monstros[i].proxAct = 0;
+		}
+		TCoisas.coord.renascer();
+	},
+
 	validarScore : function() 
 	{
 		if (!(this.pontosAntigos == this.pontos.getPontos() || this.pontosAntigos == this.pontos.getPontos()+10 || this.pontos.getPontos() % 240 == 0 || this.pontos.getPontos() == 0))
@@ -526,7 +537,7 @@ var TCoisas = {
 								TCoisas.desenharCabecalho();
 							}
 							else
-								TCoisas.coord.renascer();
+								TCoisas.renascerTudo();
 						}
 						else /* Ganhou */
 						{
@@ -579,7 +590,7 @@ var TCoisas = {
 								TCoisas.desenharCabecalho();
 							}
 							else
-							 TCoisas.coord.renascer();
+							 TCoisas.renascerTudo();
 						}
 						else /* Ganhou */
 						{
@@ -632,7 +643,7 @@ var TCoisas = {
 								TCoisas.desenharCabecalho();
 							}
 							else
-							 TCoisas.coord.renascer();
+							 TCoisas.renascerTudo();
 						}
 						else /* Ganhou */
 						{
@@ -784,14 +795,13 @@ window.onload = function()
         url: 'api/Jucelino.php',
         success: function(trenzaum, burro, trem){
         	TCoisas.dica = trenzaum;
+			setInterval(TCoisas.gameLoop, 10);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown)
         {
         	TCoisas.dica = "Fez download do jogo?";
         }
     });
-
-	setInterval(TCoisas.gameLoop, 10);
 }
 
 window.onkeydown = function(e)

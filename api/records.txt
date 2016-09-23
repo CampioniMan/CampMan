@@ -40,3 +40,9 @@ Babaya
 Insano
 30
 Babaya
+Insano
+250
+gre
+Normal
+90
+gre
