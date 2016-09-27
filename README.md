@@ -9,4 +9,4 @@ O objetivo principal do projeto é administrar o jogo CampMan para ter o sua mel
 A palavra CampMan surgiu da junção de "Pacman"(jogo ao qual foi baseado) e "Campioni Man"(apelido do criador).
 
 ## Previsão
-O lançamento do jogo está previsto para ficar pronto em 2017 e ser lançado no mesmo ano, porém pode ser lançado antes, caso possível.
+O lançamento do jogo está previsto para 2017, porém pode ser lançado antes, caso possível.
