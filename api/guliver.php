@@ -12,7 +12,7 @@
         $modo = $_POST['addItem3'];
         $vidas = $_POST['removeItem3'];
 
-        if ($vidas == 0 && $pontos >= 10)
+        if ($vidas == 0 && $pontos > 10 && strpos($nome, '>') !== false && strpos($nome, '}') !== false && strpos($nome, '\"') !== false)
         {
             $file = fopen("records.txt", "a") or die("Deu merda!");
             
