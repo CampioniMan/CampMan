@@ -75,6 +75,7 @@
 		<img src="imgs/M2.png" id="lmon4" class="monstro"  />   <!-- Não mude... -->
 		<img src="imgs/A2.png" id="lmon5" class="monstro"  />   <!-- Não mude... -->
 		<img src="imgs/N.png" id="lmon6" class="monstro"  />    <!-- Não mude... -->
+		<img src="imgs/BackgroundRed.png" id="backRed" class="back"  />    <!-- Não mude... -->
 
 		<img src="imgs/pa0.png"      id="pa0"  class="atos"  />       <!-- TCoisas.imgPa0  = document.getElementById("pa0");              -->
 		<img src="imgs/pa1.png"      id="pa1"  class="atos"  />       <!-- TCoisas.imgPa1  = document.getElementById("pa1");              -->

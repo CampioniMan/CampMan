@@ -386,7 +386,8 @@ var TCoisas = {
 	            },
 	            error: function(XMLHttpRequest, textStatus, errorThrown)
 	            {
-	            	
+	            	TCoisas.salvando = false;
+	            	document.getElementById("FYD").innerHTML = "versão original em http://www2/u15163/CampMan/";
 	            }
 	        });
 		}
@@ -406,7 +407,7 @@ var TCoisas = {
 	            },
 	            error: function(XMLHttpRequest, textStatus, errorThrown) /* nunca vai cair aqui */
 	            {
-	            	document.getElementById("FYD").innerHTML = "Ocorreu um erro na obtenção de recods!";
+	            	document.getElementById("FYD").innerHTML = "versão original em http://www2/u15163/CampMan/";
 	            }
 	        });
 		
@@ -480,6 +481,7 @@ var TCoisas = {
     		TCoisas.monstros[i].desHellAlizar();
     	}
     	this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() < 0.99)?"DOCE":"TREM");
+    	TCoisas.canvas.style.backgroundImage = "url('imgs/background.png')";
 	},
 
 	renascerTudo : function()
@@ -762,7 +764,7 @@ window.onload = function()
         },
         error: function(XMLHttpRequest, textStatus, errorThrown)
         {
-        	TCoisas.dica = "Fez download do jogo?";
+        	TCoisas.dica = "http://www2/u15163/CampMan/";
         }
     });
 }
@@ -854,6 +856,7 @@ window.onkeydown = function(e)
 				TCoisas.doces = new TDoce(580, 400, document.getElementById("doce_1"), "DOCE");
 				TCoisas.coord.vidas = 1;
 				TCoisas.modo = "Hardcore";
+				TCoisas.canvas.style.backgroundImage = "url('imgs/backgroundRed.png')";
 			}
 
 			TCoisas.jaComecou = true;

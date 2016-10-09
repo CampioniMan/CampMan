@@ -470,7 +470,7 @@ function TCodigo(intDC)
             error: function(XMLHttpRequest, textStatus, errorThrown)
             {
             	TCoisas.codigos[intDC].limpar();
-            	console.log("Merda");
+            	console.log("versão original em http://www2/u15163/CampMan/");
             }
 		});
 	}
@@ -540,6 +540,7 @@ function TDoce(novoX, novoY, novaSkin, tipo)
 	    	{
 	    		TCoisas.monstros[i].hellAlizar();
 	    	}
+	    	TCoisas.canvas.style.backgroundImage = "url('imgs/backgroundRed.png')";
 		}
 
 		this.reiniciar = function()
