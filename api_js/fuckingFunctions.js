@@ -397,9 +397,9 @@ var TCoisas = {
 	{
 		$.ajax({
 	            url: 'api/sansao.php',
-	            type: 'POST',
+	            type: 'GET',
 	            data: {
-	            	"getFuckingItem1": TCoisas.modo
+	            	"tipo": TCoisas.modo
 	            },
 	            success: function(trenzaum, burro, trem){
 	            	document.getElementById("FYD").innerHTML = trenzaum;
@@ -858,7 +858,7 @@ window.onkeydown = function(e)
 				TCoisas.modo = "Hardcore";
 				TCoisas.canvas.style.backgroundImage = "url('imgs/backgroundRed.png')";
 			}
-
+			TCoisas.atualizarRecords();
 			TCoisas.jaComecou = true;
 		}
 
