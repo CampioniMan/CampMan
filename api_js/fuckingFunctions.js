@@ -828,7 +828,8 @@ window.onkeydown = function(e)
 	}
 	else /* Não saiu da introdução */
 	{
-		if (e.keyCode == 13)
+
+		if (e.keyCode == 13 && TCoisas.telaInicio.parou)
 		{
 			if (TCoisas.botoes[0].estaSelecionado) // MODO DESAFIOS = coisas variadas
 				TCoisas.modo = "Desafios";
@@ -860,6 +861,10 @@ window.onkeydown = function(e)
 			}
 			TCoisas.atualizarRecords();
 			TCoisas.jaComecou = true;
+		}
+		else if (e.keyCode == 13 && !TCoisas.telaInicio.parou)
+		{
+			TCoisas.telaInicio.parou = true;
 		}
 
 		if (e.keyCode == 65 || e.keyCode == 37) // <-- no menu

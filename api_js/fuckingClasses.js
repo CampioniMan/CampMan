@@ -375,6 +375,12 @@ function telaInicial()
 		}
 		else
 		{
+			if (this.monstros[2].xis < 575)
+			{
+				this.monstros = new Array(new TPersonagemAgr(475, 200),new TPersonagemAgr(525, 200),new TPersonagemAgr(575, 200),
+		                 new TPersonagemAgr(625, 200),new TPersonagemAgr(675, 200),new TPersonagemAgr(725, 200));
+				this.personagem.xis = 425;
+			}
 			this.cont++;
 			if (this.cont < 10)
 				this.context.drawImage(this.imgBranca, 0, 0); /* Aquela piscada */
