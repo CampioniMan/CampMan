@@ -21,6 +21,7 @@ var TCoisas = {
 	pontos   : new Derived(),
 	mostrador : null,
 	qtosEsc : 0,
+	visor : new TQuadradoVisivel(570, 400),
 
 	ondePontos : new Array(
 		        new TPontuacao(55, 38), 
@@ -152,6 +153,15 @@ var TCoisas = {
 			this.monstros[i].desenhar(this.context);
 	},
 
+	desenharMonstrosHell : function()
+	{
+		for (var i = 0; i < TCoisas.monstros.length; i++)
+			if (this.visor.temMonstro(this.monstros[i]))
+			{
+				this.monstros[i].desenhar(this.context);
+			}
+	},
+
 	desenharPlayer : function()
 	{
 		this.context.translate(this.coord.xisD, this.coord.ipiD);
@@ -161,6 +171,9 @@ var TCoisas = {
 
 		this.context.rotate(-this.coord.angulo);
 		this.context.translate(-this.coord.xisD, -this.coord.ipiD);
+
+		if (this.monstros[0].hell || this.modo == "Hardcore")
+			this.visor.desenhar(this.context);
 	},
 
 	desenharCabecalho : function()
@@ -283,6 +296,7 @@ var TCoisas = {
 			this.monstros[i].andar();
 
 		this.coord.andar();
+		this.visor.atualizarCoord(this.coord.xis, this.coord.ipi);
 	},
 
 	calcularProximaPos : function()
@@ -465,7 +479,6 @@ var TCoisas = {
 		this.coord.xis = 570;
 		this.coord.ipi = 400;
 		this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() < 0.99)?"DOCE":"TREM");
-    	TCoisas.canvas.style.backgroundImage = "url('imgs/background.png')";
 	},
 
 	reiniciarNormal : function()
@@ -483,6 +496,22 @@ var TCoisas = {
 		this.coord.resetarAoInicio(3);
     	this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() < 0.99)?"DOCE":"TREM");
     	TCoisas.canvas.style.backgroundImage = "url('imgs/background.png')";
+	},
+
+	reiniciarESC : function()
+	{
+		for (var indice = 0; indice <= this.ondePontos.length-1; indice++)
+			this.ondePontos[indice].mudarVale(true);
+		for (var cont1 = 0; cont1 < this.monstros.length; cont1++)
+		{
+			this.monstros[cont1].xis = 575;
+			this.monstros[cont1].ipi = 270;
+			this.monstros[cont1].proxAct = 0;
+    		this.monstros[cont1].desHellAlizar();
+		}
+		this.timer = 0;
+		this.coord.resetarAoInicio(3);
+    	this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() < 0.99)?"DOCE":"TREM");
 	},
 
 	renascerTudo : function()
@@ -535,14 +564,23 @@ var TCoisas = {
 							if (!TCoisas.colidiuMonstro()) 
 							{
 								if (!TCoisas.monstros[0].hell)
+								{
 									TCoisas.calcularProximaPos();
+									TCoisas.verSePontuou();
+									TCoisas.desenharPontos();
+									TCoisas.trocarSprites();
+									TCoisas.desenharPlayer();
+									TCoisas.desenharMonstros();
+								}
 								else
+								{
 									TCoisas.calcularProximaPosHell();
-								TCoisas.verSePontuou();
-								TCoisas.desenharPontos();
-								TCoisas.trocarSprites();
-								TCoisas.desenharPlayer();
-								TCoisas.desenharMonstros();
+									TCoisas.verSePontuou();
+									TCoisas.desenharPontos();
+									TCoisas.trocarSprites();
+									TCoisas.desenharPlayer();
+									TCoisas.desenharMonstrosHell();
+								}
 								TCoisas.desenharCabecalho();
 							}
 							else
@@ -584,7 +622,7 @@ var TCoisas = {
 								TCoisas.desenharCabecalho();
 							}
 							else
-							 TCoisas.renascerTudo();
+								TCoisas.renascerTudo();
 						}
 						else /* Ganhou */
 						{
@@ -618,11 +656,11 @@ var TCoisas = {
 								TCoisas.desenharPontos();
 								TCoisas.trocarSprites();
 								TCoisas.desenharPlayer();
-								TCoisas.desenharMonstros();
+								TCoisas.desenharMonstrosHell();
 								TCoisas.desenharCabecalho();
 							}
 							else
-							 TCoisas.renascerTudo();
+								TCoisas.renascerTudo();
 						}
 						else /* Ganhou */
 						{
@@ -824,7 +862,7 @@ window.onkeydown = function(e)
 			TCoisas.qtosEsc++;
 			if (TCoisas.qtosEsc >= 3)
 			{
-				TCoisas.reiniciarNormal();
+				TCoisas.reiniciarESC();
 				TCoisas.salvarRecord();
 				TCoisas.zerarRecords();
 				TCoisas.jaComecou = false;

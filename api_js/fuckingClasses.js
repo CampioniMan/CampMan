@@ -237,6 +237,34 @@ function TPersonagemAgr(x2, y2, novaSkin)
 	}
 }
 
+function TQuadradoVisivel(x2, y2)
+{
+	this.xis = x2;
+	this.ipi = y2;
+	this.tamanho = 600;
+
+	this.temMonstro = function(monstro)
+	{
+		return ((monstro.xis <= this.xis+this.tamanho/2 && monstro.xis+this.tamanho/2+50 >= this.xis) && (monstro.ipi <= this.ipi + this.tamanho/2 && monstro.ipi + this.tamanho/2+50 >= this.ipi));
+	}
+
+	this.desenhar = function(g)
+	{
+		antigoStyle = g.fillStyle;
+		g.globalAlpha = 0.2;
+		g.fillStyle = "rgb(255, 0, 0)";
+		g.fillRect(this.xis-(this.tamanho/2), this.ipi-(this.tamanho/2), this.tamanho, this.tamanho);
+		g.fillStyle = antigoStyle;
+		g.globalAlpha = 1;
+	}
+
+	this.atualizarCoord = function(x, y)
+	{
+		this.xis = x;
+		this.ipi = y;
+	}
+}
+
 function TBotao(x2, y2, selecao, novaSkin, modoMonstros, modoVidas)
 {
 	this.xis = x2;
