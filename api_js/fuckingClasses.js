@@ -56,6 +56,8 @@ function TPersonagemPri(x2, y2)
 	this.ipi = y2;
 	this.xisD = x2;
 	this.ipiD = y2;
+	this.xisOriginal = x2;
+	this.ipiOriginal = y2;
 	this.vidas = 3;
 	this.proxAct = -1; 
 	this.atualAct = 3;
@@ -64,6 +66,19 @@ function TPersonagemPri(x2, y2)
 	this.skinAtual = null;
 	this.angulo = 0;
 	this.qual = 0;
+
+	this.resetarAoInicio = function(qtasVidas) /* param inútil */
+	{
+		this.xis = this.xisOriginal;
+		this.ipi = this.ipiOriginal;
+		this.xisD = this.xisOriginal;
+		this.ipiD = this.ipiOriginal;
+		this.proxAct = -1; 
+		this.atualAct = 3;
+		this.angulo = 0;
+		this.qual = 0;
+		this.vidas = qtasVidas;
+	}
 
 	this.alterarAct = function(novoAct)
 	{
@@ -89,10 +104,10 @@ function TPersonagemPri(x2, y2)
 		this.proxAct = -1;
 		this.atualAct = 3;
 		this.vidas--;
-		this.xis = 570;
-		this.ipi = 400;
-		this.xisD = 570;
-		this.ipiD = 400;
+		this.xis = this.xisOriginal;
+		this.ipi = this.ipiOriginal;
+		this.xisD = this.xisOriginal;
+		this.ipiD = this.ipiOriginal;
 	}
 
 	this.trocarSkin = function () 
@@ -167,29 +182,25 @@ function TPersonagemAgr(x2, y2, novaSkin)
 	this.xis = x2;
 	this.ipi = y2;
 	this.proxAct = 0; 
-	this.desativar = false;
 	this.hell = false;
 
 	this.andar = function()
 	{
-		if (this.desativar == false)
+		if (this.proxAct == 1)
+			this.ipi++;
+		else
 		{
-			if (this.proxAct == 1)
-				this.ipi++;
+			if (this.proxAct == 2)
+				this.xis--;
 			else
 			{
-				if (this.proxAct == 2)
-					this.xis--;
+				if (this.proxAct  == 3)
+					this.xis++;
 				else
 				{
-					if (this.proxAct  == 3)
-						this.xis++;
-					else
-					{
-						if (this.proxAct > 3)
-							this.proxAct -= 4;
-						this.ipi--;    
-					}
+					if (this.proxAct > 3)
+						this.proxAct -= 4;
+					this.ipi--;    
 				}
 			}
 		}

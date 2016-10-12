@@ -1,7 +1,7 @@
 <?php
 	if (isset($_GET["tipo"]) && $_GET["tipo"] != "")
 	{
-		$file = fopen("records.txt", "r");
+		$file = fopen("../records.txt", "r");
 		$qtosDados = 0;
 		$meuVetor = array();
 		while (!feof($file)) 

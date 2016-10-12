@@ -20,6 +20,7 @@ var TCoisas = {
 	dica     : "",
 	pontos   : new Derived(),
 	mostrador : null,
+	qtosEsc : 0,
 
 	ondePontos : new Array(
 		        new TPontuacao(55, 38), 
@@ -160,6 +161,19 @@ var TCoisas = {
 
 		this.context.rotate(-this.coord.angulo);
 		this.context.translate(-this.coord.xisD, -this.coord.ipiD);
+	},
+
+	desenharCabecalho : function()
+	{
+		this.context.font = "20px Consolas";
+		this.context.fillText("Pontos: "+ this.pontos.getPontos() + "    Vidas: "+ this.coord.vidas+ "   Nome: "+this.nome, 15, 15);
+		if (this.salvando)
+			this.context.fillText("Enviando record", 490, 625);
+		else
+		{
+			this.context.font = "20px Consolas";
+			this.context.fillText(this.dica, 470, 635);
+		}
 	},
 
 	inicioDoJogo : function()
@@ -322,19 +336,6 @@ var TCoisas = {
 		return false;
 	},
 
-	desenharCabecalho : function()
-	{
-		this.context.font = "20px Consolas";
-		this.context.fillText("Pontos: "+ this.pontos.getPontos() + "    Vidas: "+ this.coord.vidas+ "   Nome: "+this.nome, 15, 15);
-		if (this.salvando)
-			this.context.fillText("Enviando record", 490, 625);
-		else
-		{
-			this.context.font = "20px Consolas";
-			this.context.fillText(this.dica, 470, 635);
-		}
-	},
-
 	limparTela : function()
 	{
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -356,12 +357,11 @@ var TCoisas = {
 
 	salvarRecord : function()
 	{
-		if (this.sarvo == 2)
+		if (this.sarvo == 1)
 		{
-			this.sarvo = 1;
+			this.sarvo++;
 			this.limparTela();
 			this.salvando = true;
-			this.sarvo++;
 			$.ajax({
 	            url: 'api/guliver.php',
 	            type: 'POST',
@@ -373,21 +373,23 @@ var TCoisas = {
 	            },
 	            success: function(trenzaum, burro, trem){
 	            	fruits = [TCoisas.nome];
-	            	if (trenzaum.toString().trim() != "[\""+fruits.toString()+"\"]") /* quero que caia no else */
+	            	if (trenzaum != TCoisas.nome) /* quero que caia no else */
 	            	{
-	            		document.location.href = "pa-1.png";
+	            		document.location.href = "imgs/pa-1.png";
 	            	}
 	            	else
 	            	{
 	            		TCoisas.salvando = false;
 	            		TCoisas.atualizarRecords();
 	            	}
-	            		
+	            	this.sarvo--;
+	            	this.salvando = false;
 	            },
 	            error: function(XMLHttpRequest, textStatus, errorThrown)
 	            {
 	            	TCoisas.salvando = false;
 	            	document.getElementById("FYD").innerHTML = "versão original em http://www2/u15163/CampMan/";
+	            	this.sarvo--;
 	            }
 	        });
 		}
@@ -411,6 +413,11 @@ var TCoisas = {
 	            }
 	        });
 		
+	},
+
+	zerarRecords :function()
+	{
+		document.getElementById("FYD").innerHTML = "";
 	},
 
 	verSePontuou : function()
@@ -457,6 +464,8 @@ var TCoisas = {
 		this.coord.proxAct = -1;
 		this.coord.xis = 570;
 		this.coord.ipi = 400;
+		this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() < 0.99)?"DOCE":"TREM");
+    	TCoisas.canvas.style.backgroundImage = "url('imgs/background.png')";
 	},
 
 	reiniciarNormal : function()
@@ -468,18 +477,10 @@ var TCoisas = {
 			this.monstros[cont1].xis = 575;
 			this.monstros[cont1].ipi = 270;
 			this.monstros[cont1].proxAct = 0;
+    		this.monstros[cont1].desHellAlizar();
 		}
-		this.doces.ativo = false;
-		this.doces.reiniciar();
 		this.timer = 0;
-		this.coord.atualAct = 3;
-		this.coord.proxAct = -1;
-		this.coord.xis = 570;
-		this.coord.ipi = 400;
-		for (var i = 0; i < TCoisas.monstros.length; i++) 
-    	{
-    		TCoisas.monstros[i].desHellAlizar();
-    	}
+		this.coord.resetarAoInicio(3);
     	this.doces = new TDoce(580, 400, document.getElementById("doce_1"), (Math.random() < 0.99)?"DOCE":"TREM");
     	TCoisas.canvas.style.backgroundImage = "url('imgs/background.png')";
 	},
@@ -775,12 +776,6 @@ window.onkeydown = function(e)
 	{
 		if (e.keyCode == 13)
 		{
-			if (TCoisas.monstros[0].desativar == false)
-			for (var cont1 = 0; cont1 < TCoisas.monstros.length; cont1++) 
-				TCoisas.monstros[cont1].desativar = true;
-			else
-			for (var cont1 = 0; cont1 < TCoisas.monstros.length; cont1++) 
-				TCoisas.monstros[cont1].desativar = false;
 
 			if (TCoisas.coord.morreu())
 			{
@@ -804,27 +799,49 @@ window.onkeydown = function(e)
 		{
 			TCoisas.coord.proxAct = 2; 
 			foi = true;
+			TCoisas.qtosEsc = 0;
 		}
 		else if (e.keyCode == 87)
 		{
 			TCoisas.coord.proxAct = 0; 
 			foi = true;
+			TCoisas.qtosEsc = 0;
 		}
 		else if (e.keyCode == 68)
 		{
 			TCoisas.coord.proxAct = 3;
 			foi = true;
+			TCoisas.qtosEsc = 0;
 		}
 		else if (e.keyCode == 83)
 		{
 			TCoisas.coord.proxAct = 1; 
 			foi = true;
+			TCoisas.qtosEsc = 0;
+		}
+		else if (e.keyCode == 27)
+		{
+			TCoisas.qtosEsc++;
+			if (TCoisas.qtosEsc >= 3)
+			{
+				TCoisas.reiniciarNormal();
+				TCoisas.salvarRecord();
+				TCoisas.zerarRecords();
+				TCoisas.jaComecou = false;
+				TCoisas.pontos.SetPonto();
+				TCoisas.qtosEsc = 0;
+			}
+		}
+		else
+		{
+			TCoisas.qtosEsc = 0;
 		}
 
 		if (TCoisas.ehInverso(TCoisas.coord.proxAct, TCoisas.coord.atualAct) && foi) /* Se é pra ir pra trás */
 		{
 		    TCoisas.coord.atualAct = TCoisas.coord.proxAct;
 		}
+
 	}
 	else /* Não saiu da introdução */
 	{

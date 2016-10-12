@@ -22,3 +22,24 @@ Lucas
 Normal
 1280
 Sasaeng Esclarecida
+Hardcore
+230
+trem
+Normal
+20
+gr
+Normal
+20
+gre
+Normal
+60
+gr
+Hardcore
+10
+gre
+Hardcore
+10
+gre
+Normal
+20
+gre
