@@ -11,28 +11,29 @@
         $pontos = $_POST['addItem2'];
         $modo = $_POST['addItem3'];
         $vidas = $_POST['removeItem3'];
-
-        $naoPode = array('>', '}', '"', "<script");
-        $nome = str_replace($naoPode, "", $nome);
-
-        if ($vidas < 0 || ($modo != "Hardcore" && $modo != "Normal" && $modo != "Insano") || $pontos % 10 != 0)
+        if ($pontos > 10)
         {
-            $file = fopen("../hacker.txt", "a") or die("Deu merda!");
-            fwrite($file, "\r\n".$_SERVER["REMOTE_ADDR"]);
-        }
-        else if ($vidas == 0)
-            $file = fopen("../records.txt", "a") or die("Deu merda!");
-        else
-            $file = fopen("../desistiram.txt", "a") or die("Deu merda!");
-        
-        fwrite($file, "\r\n".$modo);
-        fwrite($file, "\r\n".$pontos);
-        fwrite($file, "\r\n".$nome);
-        
-        fclose($file);
+            $naoPode = array('>', '}', '"', "<script");
+            $nome = str_replace($naoPode, "", $nome);
 
-        $_SESSION["oi"] = "tchau";
-        
+            if ($vidas < 0 || ($modo != "Hardcore" && $modo != "Normal" && $modo != "Insano") || $pontos % 10 != 0)
+            {
+                $file = fopen("../hacker.txt", "a") or die("Deu merda!");
+                fwrite($file, "\r\n".$_SERVER["REMOTE_ADDR"]);
+            }
+            else if ($vidas == 0)
+                $file = fopen("../records.txt", "a") or die("Deu merda!");
+            else
+                $file = fopen("../desistiram.txt", "a") or die("Deu merda!");
+            
+            fwrite($file, "\r\n".$modo);
+            fwrite($file, "\r\n".$pontos);
+            fwrite($file, "\r\n".$nome);
+            
+            fclose($file);
+
+            $_SESSION["oi"] = "tchau";
+        }
         echo $nome;
     }
     else
