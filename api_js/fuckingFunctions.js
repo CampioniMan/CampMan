@@ -21,7 +21,7 @@ var TCoisas = {
 	pontos   : new Derived(),
 	mostrador : null,
 	qtosEsc : 0,
-	visor : new TQuadradoVisivel(570, 400),
+	visor : new TQuadradoVisivel(545, 375),
 
 	ondePontos : new Array(
 		        new TPontuacao(55, 38), 
@@ -296,7 +296,7 @@ var TCoisas = {
 			this.monstros[i].andar();
 
 		this.coord.andar();
-		this.visor.atualizarCoord(this.coord.xis, this.coord.ipi);
+		this.visor.atualizarCoord(this.coord.xis-25, this.coord.ipi-25);
 	},
 
 	calcularProximaPos : function()

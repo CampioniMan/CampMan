@@ -16,7 +16,7 @@
 			
 		for ($indUm = 0; $indUm <= $qtosDados-1; $indUm++)
 		{
-			$menorP = 9007199254740992;
+			$menorP = 90071992547409;// pode adicionar 92 no final que ainda funciona
 			for ($indDois = $indUm; $indDois <= $qtosDados-1; $indDois++) 
 			{ 
 				if ($meuVetor["pontos"][$indDois] <= $menorP) 
